@@ -1,0 +1,39 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(http-equiv="X-UA-Compatible", content="IE=edge")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Todo List
+  body
+    header.main-header
+      h1.main-title
+      img#toggle-mode(src="images/icon-moon.svg" alt="Change application theme icon")
+
+    main.main
+      form#new-todo-form.form.form--new-todo
+        .form__field
+          input#add-new-todo-checkbox.form__checkbox(type="checkbox", name="add-new-todo-checkbox")
+          label.form__checkbox-label(for="add-new-todo-checkbox") eo
+          input#add-new-todo.form__input(type="text", name="add-new-todo" placeholder="Add new todo")
+
+      - const todos = ["Complete online JavaScript tutorial", "Jog around the park 3x", "10 minutes meditation", "Read for 1 hour", "Pick up groceries", "Complete Todo App on Frontend Mentor"]
+      
+      .panel
+        form#todo-list-form.form.form--todo-list
+          ul#todo-list.todo-list
+          each todo, index in todos
+            li.todo-list__item
+              .form__field
+                input.form__checkbox(type="checkbox", name="todos" id=`todo-checkbox-${index}` value=todo)
+                label.form__checkbox-label(for=`todo-checkbox-${index}`)= index
+                input.form__input(type="text", name=`todo-input-${index}` placeholder="Task name" value=todo id=`todo-input-${index}`)
+                button.form__delete-button: img.form__cross(src="images/icon-cross.svg", alt="Delete todo image")
+        .filter
+          p.filter__items-left 5 left
+          ul.filter-list
+            li.filter-list__item: button#filter-all.filter__button All
+            li.filter-list__item: button#filter-active.filter__button Active
+            li.filter-list__item: button#filter-completed.filter__button Completed
+          p.filter__clear Clear completed
+  

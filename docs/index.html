@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List</title>
+  </head>
+  <body>
+    <header class="main-header">
+      <h1 class="main-title"></h1><img id="toggle-mode" src="images/icon-moon.svg" alt="Change application theme icon">
+    </header>
+    <main class="main">
+      <form class="form form--new-todo" id="new-todo-form">
+        <div class="form__field">
+          <input class="form__checkbox" id="add-new-todo-checkbox" type="checkbox" name="add-new-todo-checkbox">
+          <label class="form__checkbox-label" for="add-new-todo-checkbox">eo</label>
+          <input class="form__input" id="add-new-todo" type="text" name="add-new-todo" placeholder="Add new todo">
+        </div>
+      </form>
+      <div class="panel">
+        <form class="form form--todo-list" id="todo-list-form">
+          <ul class="todo-list" id="todo-list"></ul>
+          <li class="todo-list__item">
+            <div class="form__field">
+              <input class="form__checkbox" type="checkbox" name="todos" id="todo-checkbox-0" value="Complete online JavaScript tutorial">
+              <label class="form__checkbox-label" for="todo-checkbox-0">0</label>
+              <input class="form__input" type="text" name="todo-input-0" placeholder="Task name" value="Complete online JavaScript tutorial" id="todo-input-0">
+              <button class="form__delete-button"><img class="form__cross" src="images/icon-cross.svg" alt="Delete todo image"></button>
+            </div>
+          </li>
+          <li class="todo-list__item">
+            <div class="form__field">
+              <input class="form__checkbox" type="checkbox" name="todos" id="todo-checkbox-1" value="Jog around the park 3x">
+              <label class="form__checkbox-label" for="todo-checkbox-1">1</label>
+              <input class="form__input" type="text" name="todo-input-1" placeholder="Task name" value="Jog around the park 3x" id="todo-input-1">
+              <button class="form__delete-button"><img class="form__cross" src="images/icon-cross.svg" alt="Delete todo image"></button>
+            </div>
+          </li>
+          <li class="todo-list__item">
+            <div class="form__field">
+              <input class="form__checkbox" type="checkbox" name="todos" id="todo-checkbox-2" value="10 minutes meditation">
+              <label class="form__checkbox-label" for="todo-checkbox-2">2</label>
+              <input class="form__input" type="text" name="todo-input-2" placeholder="Task name" value="10 minutes meditation" id="todo-input-2">
+              <button class="form__delete-button"><img class="form__cross" src="images/icon-cross.svg" alt="Delete todo image"></button>
+            </div>
+          </li>
+          <li class="todo-list__item">
+            <div class="form__field">
+              <input class="form__checkbox" type="checkbox" name="todos" id="todo-checkbox-3" value="Read for 1 hour">
+              <label class="form__checkbox-label" for="todo-checkbox-3">3</label>
+              <input class="form__input" type="text" name="todo-input-3" placeholder="Task name" value="Read for 1 hour" id="todo-input-3">
+              <button class="form__delete-button"><img class="form__cross" src="images/icon-cross.svg" alt="Delete todo image"></button>
+            </div>
+          </li>
+          <li class="todo-list__item">
+            <div class="form__field">
+              <input class="form__checkbox" type="checkbox" name="todos" id="todo-checkbox-4" value="Pick up groceries">
+              <label class="form__checkbox-label" for="todo-checkbox-4">4</label>
+              <input class="form__input" type="text" name="todo-input-4" placeholder="Task name" value="Pick up groceries" id="todo-input-4">
+              <button class="form__delete-button"><img class="form__cross" src="images/icon-cross.svg" alt="Delete todo image"></button>
+            </div>
+          </li>
+          <li class="todo-list__item">
+            <div class="form__field">
+              <input class="form__checkbox" type="checkbox" name="todos" id="todo-checkbox-5" value="Complete Todo App on Frontend Mentor">
+              <label class="form__checkbox-label" for="todo-checkbox-5">5</label>
+              <input class="form__input" type="text" name="todo-input-5" placeholder="Task name" value="Complete Todo App on Frontend Mentor" id="todo-input-5">
+              <button class="form__delete-button"><img class="form__cross" src="images/icon-cross.svg" alt="Delete todo image"></button>
+            </div>
+          </li>
+        </form>
+        <div class="filter">
+          <p class="filter__items-left">5 left</p>
+          <ul class="filter-list">
+            <li class="filter-list__item">
+              <button class="filter__button" id="filter-all">All</button>
+            </li>
+            <li class="filter-list__item">
+              <button class="filter__button" id="filter-active">Active</button>
+            </li>
+            <li class="filter-list__item">
+              <button class="filter__button" id="filter-completed">Completed</button>
+            </li>
+          </ul>
+          <p class="filter__clear">Clear completed</p>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
