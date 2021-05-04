@@ -1,0 +1,59 @@
+.form {
+  background-color: var(--todo-background);
+
+  &--new-todo {
+    border-radius: px-to-rem(5px);
+    margin-bottom: px-to-rem(16px);
+
+    @include apply-box-shadow();
+  }
+
+  &--todo-list {
+    border-radius: px-to-rem(5px);
+  }
+
+  &__field {
+    padding: px-to-rem(16px) px-to-rem(20px);
+    display: flex;
+    align-items: center;
+    
+    &:not(&--no-border-bottom) {
+      border-bottom: 1px solid var(--border);
+    }
+  }
+
+  &__checkbox {
+    display: none;
+  }
+
+  &__checkbox-label {
+    $size: px-to-rem(20px);
+
+    width: #{$size};
+    height: #{$size};
+    display: block;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    margin-right: px-to-rem(12px);
+  }
+
+  &__input {
+    background: none;
+    border: none;
+    font-size: px-to-rem(12px);
+    color: var(--on-todo-background);
+    flex-grow: 1;
+
+    &::placeholder {
+      color: var(--on-todo-background);
+    }
+  }
+
+  &__delete-button {
+
+  }
+
+  &__cross {
+    height: px-to-rem(12px);
+  }
+}

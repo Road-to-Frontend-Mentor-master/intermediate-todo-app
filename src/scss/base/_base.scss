@@ -1,0 +1,46 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: $base-font-size;
+}
+
+body,
+p,
+h1 {
+  margin: 0;
+}
+
+body {
+  background-color: var(--background);
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+body,
+input,
+button {
+  font-family: $main-font;
+}
+
+main {
+  padding: 0 px-to-rem(24px);
+  position: relative;
+  top: -92px;
+}
+
+input:focus {
+  outline: none;
+}
+
+button {
+  background: transparent;
+  border: none;
+  padding: 0;
+}

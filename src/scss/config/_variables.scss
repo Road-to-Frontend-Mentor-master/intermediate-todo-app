@@ -9,9 +9,10 @@
   --on-panel-background: #5B5E7E;
   --active-filter-option: #3A7CFD;
   --delete-todo: #494C6B;
+  --box-shadow-color: rgba(0, 0, 0, .5);
 }
 
-:root {
+body.light-theme {
   --background: #FAFAFA;
   --border: #979797;
   --todo-background: #ffffff;
@@ -21,4 +22,8 @@
   --panel-background: #9495A5;
   --on-panel-background: #9495A5;
   --delete-todo: #494C6B;
+  --box-shadow-color: rgba(194, 195, 214, .5);
 }
+
+$main-font: 'Josefin Sans', sans-serif;
+$base-font-size: 16px;
