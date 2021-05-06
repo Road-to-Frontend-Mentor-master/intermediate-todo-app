@@ -1,5 +1,10 @@
 .main-title {
   text-transform: uppercase;
   color: white;
-  letter-spacing: 12px;
+  letter-spacing: px-to-rem(12px);
+
+  @include desktop() {
+    font-size: px-to-rem(40px);
+    width: px-to-rem(540px - 26px);
+  }
 }

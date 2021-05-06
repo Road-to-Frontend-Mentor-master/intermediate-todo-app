@@ -1,0 +1,5 @@
+@mixin desktop() {
+  @include from($desktop) {
+    @content;
+  }
+}

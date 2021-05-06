@@ -2,26 +2,44 @@
   position: relative;
   display: flex;
   justify-content: space-between;
-  padding: px-to-rem(16px) px-to-rem(20px) px-to-rem(18px);
+  padding: px-to-rem(15px) px-to-rem(20px) px-to-rem(14px);
 
   &__filter-list {
-    position: absolute;
-    left: 0;
-    width: 100%;
-    top: calc(100% + #{px-to-rem(16px)});
+    @include to-desktop() {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      top: calc(100% + #{px-to-rem(16px)});
+    }
   }
 
   &__items-left,
   &__clear {
     font-size: px-to-rem(12px);
+
+    @include desktop() {
+      font-size: px-to-rem(14px);
+    }
   }
 
   &__button {
     color: inherit;
     font-size: px-to-rem(14px);
 
+    @include desktop() {
+      cursor: pointer;
+      
+      &:hover:not(&--active) {
+        color: var(--hover-filter-option);
+      }
+    }
+
     &--active {
       color: var(--active-filter-option);
     }
+  }
+
+  @include desktop() {
+    padding: px-to-rem(16px) px-to-rem(24px) px-to-rem(15px);
   }
 }

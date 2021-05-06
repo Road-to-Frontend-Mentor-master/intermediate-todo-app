@@ -32,7 +32,14 @@ button {
 main {
   padding: 0 px-to-rem(24px);
   position: relative;
-  top: -92px;
+  top: px-to-rem(-92px);
+
+  @include from($desktop) {
+    max-width: px-to-rem(540px);
+    margin: 0 auto;
+    padding: 0;
+    top: px-to-rem(-142px);
+  }
 }
 
 input:focus {

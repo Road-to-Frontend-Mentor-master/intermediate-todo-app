@@ -10,6 +10,9 @@
   --active-filter-option: #3A7CFD;
   --delete-todo: #494C6B;
   --box-shadow-color: rgba(0, 0, 0, .5);
+  --initial-gradient: #5DD2FE;
+  --last-gradient: #C058F3;
+  --hover-filter-option: #E3E4F1;
 }
 
 body.light-theme {
@@ -27,3 +30,4 @@ body.light-theme {
 
 $main-font: 'Josefin Sans', sans-serif;
 $base-font-size: 16px;
+$desktop: 1024px;

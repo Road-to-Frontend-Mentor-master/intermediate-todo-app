@@ -1,11 +1,14 @@
 .filter-list {
-  background-color: var(--todo-background);
-  padding: px-to-rem(15px);
-  border-radius: px-to-rem(5px);
+  @include to-desktop() {
+    @include apply-box-shadow();
+
+    background-color: var(--todo-background);
+    padding: px-to-rem(15px);
+    border-radius: px-to-rem(5px);
+  }
+  
   display: flex;
   justify-content: center;
-
-  @include apply-box-shadow();
 
   &__item:not(:last-child) {
     margin-right: px-to-rem(22px);

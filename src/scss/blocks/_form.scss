@@ -6,6 +6,10 @@
     margin-bottom: px-to-rem(16px);
 
     @include apply-box-shadow();
+
+    @include desktop() {
+      margin-bottom: px-to-rem(24px);
+    }
   }
 
   &--todo-list {
@@ -20,6 +24,10 @@
     &:not(&--no-border-bottom) {
       border-bottom: 1px solid var(--border);
     }
+
+    @include desktop() {
+      padding: px-to-rem(20px) px-to-rem(24px);
+    }
   }
 
   &__checkbox {
@@ -27,14 +35,65 @@
   }
 
   &__checkbox-label {
-    $size: px-to-rem(20px);
+    --background: var(--border);
+    --size: #{px-to-rem(20px)};
 
-    width: #{$size};
-    height: #{$size};
+    width: var(--size);
+    height: var(--size);
     display: block;
     border-radius: 50%;
-    border: 2px solid var(--border);
     margin-right: px-to-rem(12px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background: var(--background);
+
+    &::before {
+      --width: calc(100% - 4px);
+      --height: calc(100% - 4px);
+      --background-before: var(--todo-background);
+      
+      content: '';
+      position: absolute;
+      display: block;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      width: var(--width);
+      height: var(--height);
+      background: var(--background-before);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @include desktop() {
+      --size: #{px-to-rem(24px)}
+    }
+  }
+
+  &__checkbox:checked + &__checkbox-label {
+    --background: linear-gradient(-45deg, var(--initial-gradient), var(--last-gradient));
+  }
+
+  @include from($desktop) {
+    &__checkbox:hover + &__checkbox-label {
+      --background: linear-gradient(-45deg, var(--initial-gradient), var(--last-gradient));
+      
+      cursor: pointer;
+    }
+  }
+
+  &__checkbox:checked + &__checkbox-label {
+    
+    &::before {
+      --background-before: url(../images/icon-check.svg);
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: px-to-rem(7px);
+    }
   }
 
   &__input {
@@ -44,16 +103,20 @@
     color: var(--on-todo-background);
     flex-grow: 1;
 
+    @include desktop() {
+      font-size: px-to-rem(18px);
+    }
+
     &::placeholder {
       color: var(--on-todo-background);
     }
   }
 
-  &__delete-button {
-
-  }
-
   &__cross {
     height: px-to-rem(12px);
+
+    @include desktop() {
+      height: px-to-rem(18px);
+    }
   }
 }
