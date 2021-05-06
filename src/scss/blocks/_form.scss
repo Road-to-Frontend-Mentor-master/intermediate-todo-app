@@ -70,7 +70,9 @@
     }
 
     @include desktop() {
-      --size: #{px-to-rem(24px)}
+      --size: #{px-to-rem(24px)};
+
+      margin-right: px-to-rem(24px);
     }
   }
 
