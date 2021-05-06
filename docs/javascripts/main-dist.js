@@ -1,0 +1,1 @@
+!function(){document.getElementById("todo-list");const t=document.getElementById("todo-list-form"),e=document.getElementById("new-todo-form");document.getElementById("add-new-todo");e.addEventListener("submit",(t=>{t.preventDefault()})),t.addEventListener("click",(t=>{t.target.classList.contains("form__cross")}))}();
