@@ -248,6 +248,7 @@ button {
 @media screen and (min-width: 1024px) {
   .form__cross {
     height: 1.125rem;
+    cursor: pointer;
   }
 }
 

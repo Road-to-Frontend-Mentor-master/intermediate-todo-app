@@ -119,6 +119,7 @@
 
     @include desktop() {
       height: px-to-rem(18px);
+      cursor: pointer;
     }
   }
 }
