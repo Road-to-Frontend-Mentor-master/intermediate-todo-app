@@ -1,12 +1,13 @@
 function main() {
   const LOCAL_STORAGE_KEY = 'todo-list'
-  
+
   const todoListDOMEl = document.getElementById('todo-list')
   const todoListFormDOMEl = document.getElementById('todo-list-form')
   const newTodoFormDOMEl = document.getElementById('new-todo-form')
   const addNewTodoInputDOMEl = document.getElementById('add-new-todo')
   const newTodoCheckboxDOMEl = document.getElementById('add-new-todo-checkbox')
   const clearCompletedDOMEl = document.getElementById('clear-completed')
+  const getAllTodosDOMEl = document.getElementById('filter-all')
   const getActiveTodosDOMEl = document.getElementById('filter-active')
   const getCompletedTodosDOMEl = document.getElementById('filter-completed')
 
@@ -48,8 +49,18 @@ function main() {
     let list = [...newList]
     let activeFilter = 'all'
 
+    const LIST_STATES = {
+      all: 'all',
+      active: 'active',
+      completed: 'completed'
+    }
+
     function getListState() {
       return activeFilter
+    }
+
+    function setListState(newState) {
+      activeFilter = newState
     }
     
     function addItem(newItem) {
@@ -74,7 +85,7 @@ function main() {
     }
 
     function clearCompleted() {
-      list = list.filter(item => item.checked)
+      list = list.filter(item => !item.checked)
     }
 
     function buildField() {
@@ -110,7 +121,8 @@ function main() {
       return createHtmlElement({
         tag: 'label',
         attributes: [
-          [ 'for', `todo-checkbox-${id}` ]
+          [ 'for', `todo-checkbox-${id}` ],
+          [ 'data-todo-id', id ]
         ],
         classes: ['form__checkbox-label']
       })
@@ -173,8 +185,14 @@ function main() {
       return field
     }
 
-    function drawList(listToDraw = list) {
+    function drawList(state = LIST_STATES.all) {
       const documentFragment = document.createDocumentFragment()
+
+      const listToDraw = state === LIST_STATES.active
+        ? getActiveTodos()
+        : state === LIST_STATES.completed
+          ? getCompletedTodos()
+          : getList()
 
       listToDraw.forEach(item => {
         documentFragment.appendChild(buildFieldInput(item))
@@ -209,19 +227,40 @@ function main() {
       save,
       clearCompleted,
       getActiveTodos,
-      getCompletedTodos
+      getCompletedTodos,
+      getListState,
+      setListState,
+      LIST_STATES
     }
   }
 
-  function handleTodoListClick(e, list) {
-    if (e.target.classList.contains('form__delete-button')) {
+  const listActions = {
+    'delete-todo': (e, list) => {
       e.preventDefault()
 
       list.deleteItem(e.target.dataset.todoId)
       list.save()
       list.drawList()
-    } else if (e.target.classList.contains('form__checkbox-label')) {
+    },
 
+    'change-todo-status': (e, list) => {
+      const { todoId } = e.target.dataset
+      const { checked: todoStatus } = document.getElementById(`todo-checkbox-${todoId}`)
+
+      list.updateItem({
+        id: todoId,
+        checked: !todoStatus
+      })
+      list.save()
+      list.drawList(list.getListState())
+    }
+  }
+
+  function handleTodoListClick(e, list) {
+    if (e.target.classList.contains('form__delete-button')) {
+      listActions["delete-todo"](e, list)
+    } else if (e.target.classList.contains('form__checkbox-label')) {
+      listActions["change-todo-status"](e, list)
     }
   }
 
@@ -237,10 +276,21 @@ function main() {
     }
 
     list.addItem(newTodo)
-    list.drawList()
+    list.drawList(list.getListState())
     list.save()
 
     addNewTodoInputDOMEl.value = ''
+    newTodoCheckboxDOMEl.checked = false
+  }
+
+  function handleActiveTodosClick(list) {
+    list.setListState(list.LIST_STATES.active)
+    list.drawList(list.LIST_STATES.active)
+  }
+
+  function handleCompletedTodosClick(list) {
+    list.setListState(list.LIST_STATES.completed)
+    list.drawList(list.LIST_STATES.completed)
   }
   
   const todoList = createList(
@@ -261,12 +311,15 @@ function main() {
 
   clearCompletedDOMEl.addEventListener('click', () => {
     todoList.clearCompleted()
-    todoList.drawList(todoList.getList())
+    todoList.save()
+    todoList.drawList()
   })
 
-  getActiveTodosDOMEl.addEventListener('click', () => todoList.drawList(todoList.getActiveTodos()))
+  getActiveTodosDOMEl.addEventListener('click', () => handleActiveTodosClick(todoList))
 
-  getCompletedTodosDOMEl.addEventListener('click', () => todoList.drawList(todoList.getCompletedTodos()))
+  getCompletedTodosDOMEl.addEventListener('click', () => handleCompletedTodosClick(todoList))
+
+  getAllTodosDOMEl.addEventListener('click', () => todoList.drawList())
 }
 
 main()
