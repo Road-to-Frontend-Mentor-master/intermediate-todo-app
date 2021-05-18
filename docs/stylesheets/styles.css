@@ -114,6 +114,7 @@ button {
   }
 }
 .filter__items-left, .filter__clear {
+  cursor: pointer;
   font-size: 0.75rem;
 }
 @media screen and (min-width: 1024px) {
@@ -244,6 +245,7 @@ button {
 }
 .form__cross {
   height: 0.75rem;
+  pointer-events: none;
 }
 @media screen and (min-width: 1024px) {
   .form__cross {

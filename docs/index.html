@@ -23,56 +23,8 @@
       </form>
       <div class="panel">
         <form class="form form--todo-list" id="todo-list-form">
-          <ul class="todo-list" id="todo-list">
-            <li class="todo-list__item">
-              <div class="form__field">
-                <input class="form__checkbox" type="checkbox" name="todos" id="todo-checkbox-0" value="Complete online JavaScript tutorial">
-                <label class="form__checkbox-label" for="todo-checkbox-0"></label>
-                <input class="form__input" type="text" name="todo-input-0" placeholder="Task name" value="Complete online JavaScript tutorial" id="todo-input-0">
-                <button class="form__delete-button"><img class="form__cross" src="images/icon-cross.svg" alt="Delete todo image"></button>
-              </div>
-            </li>
-            <li class="todo-list__item">
-              <div class="form__field">
-                <input class="form__checkbox" type="checkbox" name="todos" id="todo-checkbox-1" value="Jog around the park 3x">
-                <label class="form__checkbox-label" for="todo-checkbox-1"></label>
-                <input class="form__input" type="text" name="todo-input-1" placeholder="Task name" value="Jog around the park 3x" id="todo-input-1">
-                <button class="form__delete-button"><img class="form__cross" src="images/icon-cross.svg" alt="Delete todo image"></button>
-              </div>
-            </li>
-            <li class="todo-list__item">
-              <div class="form__field">
-                <input class="form__checkbox" type="checkbox" name="todos" id="todo-checkbox-2" value="10 minutes meditation">
-                <label class="form__checkbox-label" for="todo-checkbox-2"></label>
-                <input class="form__input" type="text" name="todo-input-2" placeholder="Task name" value="10 minutes meditation" id="todo-input-2">
-                <button class="form__delete-button"><img class="form__cross" src="images/icon-cross.svg" alt="Delete todo image"></button>
-              </div>
-            </li>
-            <li class="todo-list__item">
-              <div class="form__field">
-                <input class="form__checkbox" type="checkbox" name="todos" id="todo-checkbox-3" value="Read for 1 hour">
-                <label class="form__checkbox-label" for="todo-checkbox-3"></label>
-                <input class="form__input" type="text" name="todo-input-3" placeholder="Task name" value="Read for 1 hour" id="todo-input-3">
-                <button class="form__delete-button"><img class="form__cross" src="images/icon-cross.svg" alt="Delete todo image"></button>
-              </div>
-            </li>
-            <li class="todo-list__item">
-              <div class="form__field">
-                <input class="form__checkbox" type="checkbox" name="todos" id="todo-checkbox-4" value="Pick up groceries">
-                <label class="form__checkbox-label" for="todo-checkbox-4"></label>
-                <input class="form__input" type="text" name="todo-input-4" placeholder="Task name" value="Pick up groceries" id="todo-input-4">
-                <button class="form__delete-button"><img class="form__cross" src="images/icon-cross.svg" alt="Delete todo image"></button>
-              </div>
-            </li>
-            <li class="todo-list__item">
-              <div class="form__field">
-                <input class="form__checkbox" type="checkbox" name="todos" id="todo-checkbox-5" value="Complete Todo App on Frontend Mentor">
-                <label class="form__checkbox-label" for="todo-checkbox-5"></label>
-                <input class="form__input" type="text" name="todo-input-5" placeholder="Task name" value="Complete Todo App on Frontend Mentor" id="todo-input-5">
-                <button class="form__delete-button"><img class="form__cross" src="images/icon-cross.svg" alt="Delete todo image"></button>
-              </div>
-            </li>
-          </ul>
+          <ul class="todo-list" id="todo-list"></ul>
+          <ul id="done-list"></ul>
         </form>
         <div class="filter">
           <p class="filter__items-left">5 items left</p>
@@ -87,10 +39,11 @@
               <button class="filter__button" id="filter-completed">Completed</button>
             </li>
           </ul>
-          <p class="filter__clear">Clear completed</p>
+          <p class="filter__clear" id="clear-completed">Clear completed</p>
         </div>
       </div>
     </main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.1.0/uuidv4.min.js"></script>
     <script src="javascripts/main-dist.js"></script>
   </body>
 </html>

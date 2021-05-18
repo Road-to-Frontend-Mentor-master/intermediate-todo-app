@@ -10,17 +10,18 @@ main.main
   .panel
     form#todo-list-form.form.form--todo-list
       ul#todo-list.todo-list
-        each todo, index in todos
-          li.todo-list__item
-            .form__field
-              input.form__checkbox(type="checkbox", name="todos" id=`todo-checkbox-${index}` value=todo)
-              label.form__checkbox-label(for=`todo-checkbox-${index}`)
-              input.form__input(type="text", name=`todo-input-${index}` placeholder="Task name" value=todo id=`todo-input-${index}`)
-              button.form__delete-button: img.form__cross(src="images/icon-cross.svg", alt="Delete todo image")
+        //- each todo, index in todos
+        //-   li.todo-list__item
+        //-     .form__field
+        //-       input.form__checkbox(type="checkbox", name="todos" id=`todo-checkbox-${index}` value=todo)
+        //-       label.form__checkbox-label(for=`todo-checkbox-${index}`)
+        //-       input.form__input(type="text", name=`todo-input-${index}` placeholder="Task name" value=todo id=`todo-input-${index}`)
+        //-       button.form__delete-button: img.form__cross(src="images/icon-cross.svg", alt="Delete todo image")
+      ul#done-list
     .filter
       p.filter__items-left 5 items left
       ul.filter__filter-list.filter-list
         li.filter-list__item: button#filter-all.filter__button.filter__button--active All
         li.filter-list__item: button#filter-active.filter__button Active
         li.filter-list__item: button#filter-completed.filter__button Completed
-      p.filter__clear Clear completed
+      p#clear-completed.filter__clear Clear completed

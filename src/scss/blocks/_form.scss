@@ -116,6 +116,7 @@
 
   &__cross {
     height: px-to-rem(12px);
+    pointer-events: none;
 
     @include desktop() {
       height: px-to-rem(18px);

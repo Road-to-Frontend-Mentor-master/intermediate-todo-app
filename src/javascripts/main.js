@@ -1,31 +1,56 @@
 function main() {
+  const LOCAL_STORAGE_KEY = 'todo-list'
+  
   const todoListDOMEl = document.getElementById('todo-list')
   const todoListFormDOMEl = document.getElementById('todo-list-form')
   const newTodoFormDOMEl = document.getElementById('new-todo-form')
   const addNewTodoInputDOMEl = document.getElementById('add-new-todo')
   const newTodoCheckboxDOMEl = document.getElementById('add-new-todo-checkbox')
+  const clearCompletedDOMEl = document.getElementById('clear-completed')
+  const getActiveTodosDOMEl = document.getElementById('filter-active')
+  const getCompletedTodosDOMEl = document.getElementById('filter-completed')
 
-  function createFieldDOMEl() {
-    const field = document.createElement('div')
-    field.classList.add('form__field')
-
-    return field
+  function generateId() {
+    return uuidv4()
   }
 
-  function createHtmlElement({ tag, attributes = [], classes }) {
+  function saveToLocalStorage(value, key = LOCAL_STORAGE_KEY) {
+    localStorage.setItem(key, JSON.stringify(value))
+  }
+
+  function getFromLocalStorage(key = LOCAL_STORAGE_KEY) {
+    return JSON.parse(localStorage.getItem(key))
+  }
+
+  const composeHtmlNode = (...htmlNodes) => initialNode => (
+    htmlNodes.reduce((prevHtmlNode, currentNode) => {
+      prevHtmlNode.appendChild(currentNode)
+
+      return prevHtmlNode
+    }, initialNode)
+  )
+
+  function createHtmlElement({ tag, attributes = [], classes = [] }) {
     const element = document.createElement(tag)
 
     attributes.forEach(attribute => {
-      element.setAttribute(attribute.key, attribute.value)
+      element.setAttribute(...attribute)
     })
 
-    element.classList = classes
+    classes.forEach(cssClass => {
+      element.classList.add(cssClass)
+    })
 
     return element
   }
 
   function createList(newList = [], containerDOMElId) {
     let list = [...newList]
+    let activeFilter = 'all'
+
+    function getListState() {
+      return activeFilter
+    }
     
     function addItem(newItem) {
       list.push(newItem)
@@ -48,101 +73,110 @@ function main() {
       })
     }
 
+    function clearCompleted() {
+      list = list.filter(item => item.checked)
+    }
+
     function buildField() {
       return createHtmlElement({
-        tag: 'div',
-        classes: 'form__field'
+        tag: 'li',
+        classes: ['form__field']
       })
     }
 
-    function buildCheckbox(checked, text, now) {
+    function buildCheckbox({checked, text, id}) {
       let checkboxAttributes = [
-        { key: 'type', value: 'checkbox' },
-        { key: 'name', value: 'todos' },
-        { key: 'id', value: `todo-checkbox-${now}` },
-        { key: 'value', value: text }
+        [ 'type', 'checkbox' ],
+        [ 'name', 'todos' ],
+        [ 'id', `todo-checkbox-${id}` ],
+        [ 'value', text ],
       ]
 
       if (checked) {
         checkboxAttributes = [
           ...checkboxAttributes,
-          { key: 'checked', value: "checked" }
+          ['checked', "checked"]
         ]
       }
 
       return createHtmlElement({
         tag: 'input',
         attributes: checkboxAttributes,
-        classes: 'form__checkbox'
+        classes: ['form__checkbox']
       })
     }
 
-    function buildLabel(now) {
+    function buildLabel(id) {
       return createHtmlElement({
         tag: 'label',
         attributes: [
-          { key: 'for', value: `todo-checkbox-${now}`}
+          [ 'for', `todo-checkbox-${id}` ]
         ],
-        classes: 'form__checkbox-label'
+        classes: ['form__checkbox-label']
       })
     }
 
-    function buildCrossButtonContainer() {
+    function buildCrossButtonContainer(id) {
       return createHtmlElement({
         tag: 'button',
-        classes: 'form__delete-button'
+        attributes: [
+          [ 'data-todo-id', id ],
+        ],
+        classes: ['form__delete-button']
       })
     }
 
-    function buildCrossIcon() {
+    function buildCrossIcon(id) {
       return createHtmlElement({
         tag: 'img',
         attributes: [
-          { key: 'src', value: 'images/icon-cross.svg' },
-          { key: 'alt', value: 'Delete todo icon' }
-        ]
+          [ 'src', 'images/icon-cross.svg' ],
+          [ 'alt', 'Delete todo icon' ],
+          [ 'data-todo-id', id ]
+        ],
+        classes: ['form__cross']
       })
     }
 
-    function buildTextInput(text) {
+    function buildTextInput({ text, id }) {
       return createHtmlElement({
         tag: 'input',
         attributes: [
-          { key: 'type', value: 'text' },
-          { key: 'name', value: 'todo-input-${now}' },
-          { key: 'placeholder', value: 'Task name' },
-          { key: 'value', value: text },
-          { key: 'id', value: 'todo-input-${now}' },
+          [ 'type', 'text' ],
+          [ 'name', `todo-input-${id}` ],
+          [ 'placeholder', 'Task name' ],
+          [ 'value', text ],
+          [ 'id', `todo-input-${id}` ]
         ],
-        classes: 'form__input'
+        classes: ['form__input']
       })
     }
 
     function buildFieldInput(item) {
-      const now = `${Date.now()}${Math.floor((Math.random() + 1) * 100)}`
-      const { text, checked } = item
+      const { id } = item
       
-      const field = buildField()
-      const checkbox = buildCheckbox(checked, text, now)
-      const label = buildLabel(now)
-      const crossButtonContainer = buildCrossButtonContainer()
-      const crossIcon = buildCrossIcon()
-      const textInput = buildTextInput(text)
+      const checkbox = buildCheckbox(item)
+      const label = buildLabel(id)
+      const crossButtonContainer = buildCrossButtonContainer(id)
+      const crossIcon = buildCrossIcon(id)
+      const textInput = buildTextInput(item)
 
       crossButtonContainer.appendChild(crossIcon)
 
-      field.appendChild(checkbox)
-      field.appendChild(label)
-      field.appendChild(textInput)
-      field.appendChild(crossButtonContainer)
+      const field = composeHtmlNode(
+        checkbox,
+        label,
+        textInput,
+        crossButtonContainer
+      )(buildField())
 
       return field
     }
 
-    function drawList() {
+    function drawList(listToDraw = list) {
       const documentFragment = document.createDocumentFragment()
 
-      list.forEach(item => {
+      listToDraw.forEach(item => {
         documentFragment.appendChild(buildFieldInput(item))
       })
 
@@ -150,8 +184,20 @@ function main() {
       document.getElementById(containerDOMElId).appendChild(documentFragment)
     }
 
+    function getActiveTodos() {
+      return list.filter(item => !item.checked)
+    }
+
+    function getCompletedTodos() {
+      return list.filter(item => item.checked)
+    }
+
     function getList() {
       return list
+    }
+
+    function save() {
+      saveToLocalStorage(list)
     }
 
     return {
@@ -159,54 +205,68 @@ function main() {
       deleteItem,
       updateItem,
       drawList,
-      getList
+      getList,
+      save,
+      clearCompleted,
+      getActiveTodos,
+      getCompletedTodos
     }
   }
 
-  function saveToLocalStorage(element, key) {
-    // Save the given element in the local storage
-  }
-
-  function getFromLocalStorage(key) {
-    // Get the element from the local storage
-  }
-
   function handleTodoListClick(e, list) {
-    if (e.target.classList.contains('form__cross')) {
-      
+    if (e.target.classList.contains('form__delete-button')) {
+      e.preventDefault()
+
+      list.deleteItem(e.target.dataset.todoId)
+      list.save()
+      list.drawList()
     } else if (e.target.classList.contains('form__checkbox-label')) {
 
     }
   }
 
-  function handleTodoFormSubmit(e, list) {
+  function handleTodoFormSubmit(e, addNewTodoInputDOMEl, newTodoCheckboxDOMEl, list) {
     e.preventDefault()
+
+    const { value: newTodoText } = addNewTodoInputDOMEl
+    const { checked: newTodoIsChecked } = newTodoCheckboxDOMEl
+    const newTodo = {
+      text: newTodoText,
+      checked: newTodoIsChecked,
+      id: generateId()
+    }
+
+    list.addItem(newTodo)
+    list.drawList()
+    list.save()
+
+    addNewTodoInputDOMEl.value = ''
   }
   
-  const todoList = createList([], 'todo-list')
-
-  todoList.addItem({
-    text: 'Learn Next.js',
-    checked: false,
-    id: 1
-  })
-
-  todoList.addItem({
-    text: 'Learn Vue',
-    checked: true,
-    id: 2
-  })
-
-  todoList.addItem({
-    text: 'Use UUID in the MERN application',
-    checked: false,
-    id: 3
-  })
+  const todoList = createList(
+    getFromLocalStorage(LOCAL_STORAGE_KEY) ?? [],
+    'todo-list'
+  )
 
   todoList.drawList()
 
   todoListFormDOMEl.addEventListener('click', (e) => handleTodoListClick(e, todoList))
-  newTodoFormDOMEl.addEventListener('submit', (e) => handleTodoFormSubmit(e, todoList))
+
+  newTodoFormDOMEl.addEventListener('submit', (e) => handleTodoFormSubmit(
+    e,
+    addNewTodoInputDOMEl,
+    newTodoCheckboxDOMEl,
+    todoList
+  ))
+
+  clearCompletedDOMEl.addEventListener('click', () => {
+    todoList.clearCompleted()
+    todoList.drawList(todoList.getList())
+  })
+
+  getActiveTodosDOMEl.addEventListener('click', () => todoList.drawList(todoList.getActiveTodos()))
+
+  getCompletedTodosDOMEl.addEventListener('click', () => todoList.drawList(todoList.getCompletedTodos()))
 }
 
 main()

@@ -15,6 +15,7 @@
 
   &__items-left,
   &__clear {
+    cursor: pointer;
     font-size: px-to-rem(12px);
 
     @include desktop() {
