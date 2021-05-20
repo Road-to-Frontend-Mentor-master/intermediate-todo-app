@@ -15,7 +15,6 @@
 
   &__items-left,
   &__clear {
-    cursor: pointer;
     font-size: px-to-rem(12px);
 
     @include desktop() {
@@ -23,7 +22,12 @@
     }
   }
 
+  &__clear {
+    cursor: pointer;
+  }
+
   &__button {
+    cursor: pointer;
     color: inherit;
     font-size: px-to-rem(14px);
 

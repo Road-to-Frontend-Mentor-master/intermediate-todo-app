@@ -45,7 +45,7 @@ function main() {
     return element
   }
 
-  function createList(newList = [], containerDOMElId) {
+  function createList(newList = [], { containerDOMElId, leftItemsDOMEl }) {
     let list = [...newList]
     let activeFilter = 'all'
 
@@ -185,21 +185,16 @@ function main() {
       return field
     }
 
-    function drawList(state = LIST_STATES.all) {
-      const documentFragment = document.createDocumentFragment()
-
-      const listToDraw = state === LIST_STATES.active
+    function getCurrentTodos(state) {
+      return state === LIST_STATES.active
         ? getActiveTodos()
         : state === LIST_STATES.completed
           ? getCompletedTodos()
           : getList()
+    }
 
-      listToDraw.forEach(item => {
-        documentFragment.appendChild(buildFieldInput(item))
-      })
-
-      document.getElementById(containerDOMElId).innerHTML = ""
-      document.getElementById(containerDOMElId).appendChild(documentFragment)
+    function getItemsLeft() {
+      return getActiveTodos().length
     }
 
     function getActiveTodos() {
@@ -212,6 +207,22 @@ function main() {
 
     function getList() {
       return list
+    }
+
+    function drawList(state = LIST_STATES.all) {
+      const documentFragment = document.createDocumentFragment()
+      const listToDraw = getCurrentTodos(state)
+
+      listToDraw.forEach(item => {
+        documentFragment.appendChild(buildFieldInput(item))
+      })
+
+      document.getElementById(containerDOMElId).innerHTML = ""
+      document.getElementById(containerDOMElId).appendChild(documentFragment)
+    }
+
+    function drawItemsLeft() {
+      document.getElementById(leftItemsDOMEl).innerHTML = `${getItemsLeft()} items left`
     }
 
     function save() {
@@ -230,7 +241,9 @@ function main() {
       getCompletedTodos,
       getListState,
       setListState,
-      LIST_STATES
+      getItemsLeft,
+      LIST_STATES,
+      drawItemsLeft
     }
   }
 
@@ -262,6 +275,8 @@ function main() {
     } else if (e.target.classList.contains('form__checkbox-label')) {
       listActions["change-todo-status"](e, list)
     }
+
+    list.drawItemsLeft()
   }
 
   function handleTodoFormSubmit(e, addNewTodoInputDOMEl, newTodoCheckboxDOMEl, list) {
@@ -277,6 +292,7 @@ function main() {
 
     list.addItem(newTodo)
     list.drawList(list.getListState())
+    list.drawItemsLeft()
     list.save()
 
     addNewTodoInputDOMEl.value = ''
@@ -292,13 +308,20 @@ function main() {
     list.setListState(list.LIST_STATES.completed)
     list.drawList(list.LIST_STATES.completed)
   }
+
+  function handleAllTodosClick(list) {
+    list.setListState(list.LIST_STATES.all)
+    list.drawList()
+    list.drawItemsLeft()
+  }
   
   const todoList = createList(
     getFromLocalStorage(LOCAL_STORAGE_KEY) ?? [],
-    'todo-list'
+    { containerDOMElId: 'todo-list', leftItemsDOMEl: 'items-left' }
   )
 
   todoList.drawList()
+  todoList.drawItemsLeft()
 
   todoListFormDOMEl.addEventListener('click', (e) => handleTodoListClick(e, todoList))
 
@@ -313,13 +336,14 @@ function main() {
     todoList.clearCompleted()
     todoList.save()
     todoList.drawList()
+    todoList.drawItemsLeft()
   })
 
   getActiveTodosDOMEl.addEventListener('click', () => handleActiveTodosClick(todoList))
 
   getCompletedTodosDOMEl.addEventListener('click', () => handleCompletedTodosClick(todoList))
 
-  getAllTodosDOMEl.addEventListener('click', () => todoList.drawList())
+  getAllTodosDOMEl.addEventListener('click', () => handleAllTodosClick(todoList))
 }
 
 main()

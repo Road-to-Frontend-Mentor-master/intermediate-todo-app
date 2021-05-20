@@ -114,7 +114,6 @@ button {
   }
 }
 .filter__items-left, .filter__clear {
-  cursor: pointer;
   font-size: 0.75rem;
 }
 @media screen and (min-width: 1024px) {
@@ -122,7 +121,11 @@ button {
     font-size: 0.875rem;
   }
 }
+.filter__clear {
+  cursor: pointer;
+}
 .filter__button {
+  cursor: pointer;
   color: inherit;
   font-size: 0.875rem;
 }
