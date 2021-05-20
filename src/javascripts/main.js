@@ -10,6 +10,8 @@ function main() {
   const getAllTodosDOMEl = document.getElementById('filter-all')
   const getActiveTodosDOMEl = document.getElementById('filter-active')
   const getCompletedTodosDOMEl = document.getElementById('filter-completed')
+  const filterListDOMEl = document.getElementById('filter-list')
+  const filterButtonsDOMEls = [...document.querySelectorAll('.filter__button')]
 
   function generateId() {
     return uuidv4()
@@ -43,6 +45,16 @@ function main() {
     })
 
     return element
+  }
+
+  function deleteActiveClassFromElements(nodes, activeClass) {
+    const activeHtmlNode = nodes.find(node => node.classList.contains(activeClass))
+
+    activeHtmlNode.classList.remove(activeClass)
+  }
+
+  function elementContainsClass(element, cssClass) {
+    return element.classList.contains(cssClass)
   }
 
   function createList(newList = [], { containerDOMElId, leftItemsDOMEl }) {
@@ -314,6 +326,18 @@ function main() {
     list.drawList()
     list.drawItemsLeft()
   }
+
+  function handleFilterListClick({ target }) {
+    if (target.classList.contains('filter__button')) {
+      const activeClass = 'filter__button--active'
+
+      if (!elementContainsClass(target, activeClass)) {
+        deleteActiveClassFromElements(filterButtonsDOMEls, activeClass)
+        target.classList.add(activeClass)
+      }
+
+    }
+  }
   
   const todoList = createList(
     getFromLocalStorage(LOCAL_STORAGE_KEY) ?? [],
@@ -344,6 +368,8 @@ function main() {
   getCompletedTodosDOMEl.addEventListener('click', () => handleCompletedTodosClick(todoList))
 
   getAllTodosDOMEl.addEventListener('click', () => handleAllTodosClick(todoList))
+
+  filterListDOMEl.addEventListener('click', handleFilterListClick)
 }
 
 main()

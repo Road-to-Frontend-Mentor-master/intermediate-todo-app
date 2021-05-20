@@ -24,6 +24,10 @@
 
   &__clear {
     cursor: pointer;
+
+    &:hover {
+      color: var(--active-filter-option);
+    }
   }
 
   &__button {

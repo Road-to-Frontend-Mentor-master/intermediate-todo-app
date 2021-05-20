@@ -124,6 +124,9 @@ button {
 .filter__clear {
   cursor: pointer;
 }
+.filter__clear:hover {
+  color: var(--active-filter-option);
+}
 .filter__button {
   cursor: pointer;
   color: inherit;
@@ -177,6 +180,14 @@ button {
 }
 .form__checkbox {
   display: none;
+}
+@media screen and (min-width: 1024px) {
+  .form__delete-button {
+    cursor: pointer;
+  }
+  .form__delete-button:hover {
+    filter: brightness(5);
+  }
 }
 .form__checkbox-label {
   --background: var(--border);

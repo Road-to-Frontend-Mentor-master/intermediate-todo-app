@@ -34,6 +34,16 @@
     display: none;
   }
 
+  &__delete-button {
+    @include desktop() {
+      cursor: pointer;
+      
+      &:hover {
+        filter: brightness(5);
+      }
+    }
+  }
+
   &__checkbox-label {
     --background: var(--border);
     --size: #{px-to-rem(20px)};
